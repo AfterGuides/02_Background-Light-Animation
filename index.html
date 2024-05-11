@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            height: 400px;
+            width: 400px;
+            position: relative;
+            background: rgba(40, 40, 40, 1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            height: 150%;
+            width: 150%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(turquoise, transparent, transparent);
+            transition: 0.5s, top 0s, left 0s;
+            opacity: 0;
+            /*for dynamic update of top and left propery on mousemove*/
+            top: var(--position-y);
+            left: var(--position-x);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            border-radius: 10px;
+            inset: 1px;
+            /*top,left,bottom,left=2px*/
+            background: rgba(40, 40, 40, 0.9);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card"></div>
+    </div>
+
+    <script>
+        const card = document.querySelector(".card");
+        card.addEventListener("mousemove", (e) => {
+            let positionX = e.clientX - card.offsetLeft;
+            let positionY = e.clientY - card.offsetTop;
+
+            card.style.setProperty('--position-x', positionX + 'px');
+            card.style.setProperty('--position-y', positionY + 'px');
+        })
+    </script>
+</body>
+
+</html>
